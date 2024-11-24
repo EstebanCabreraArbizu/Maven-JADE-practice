@@ -25,6 +25,7 @@ public class AvionAgent extends Agent {
             DFService.register(this, dfd);
             //Comportamientos
             ParallelBehaviour parallel = new ParallelBehaviour();
+			
             //Comportamiento movimiento
             parallel.addSubBehaviour(new TickerBehaviour(this, 1000) {
                 @Override
