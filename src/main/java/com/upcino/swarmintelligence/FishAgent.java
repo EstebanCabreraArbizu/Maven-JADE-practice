@@ -24,9 +24,8 @@ public class FishAgent extends Agent {
 		color = new Color((int) (Math.random()) * 0x10000000);
 		size = (int) (25 * Math.random() + 5);
 		speed = 10 * 25 / size;
-		//new FishAgent();
 	}
-	// Para crear agentes independientes
+	// Para crear agentes independientes con un comportamiento
 	@Override
 	protected void setup() {
 		Object[] args = getArguments();
@@ -41,6 +40,7 @@ public class FishAgent extends Agent {
                 this.speed = visualPez.speed;
             }
         }
+		//Comportamiento inicial
 		addBehaviour(new TickerBehaviour(this, 100) {
 			@Override
 			protected void onTick() {
@@ -50,6 +50,7 @@ public class FishAgent extends Agent {
 			}
 		});
 	}
+	//Función creada para la actualización de la posición de los peces
 	private void actualizarEstadoVisual() {
         if (myKey != null) {
             FishAgent visualPez = HostAgent.lista_peces.get(myKey);

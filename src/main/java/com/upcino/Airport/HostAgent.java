@@ -1,3 +1,4 @@
+/*Comunicaciones entre agentes dentro de una consola */
 package com.upcino.Airport;
 
 import jade.core.Agent;

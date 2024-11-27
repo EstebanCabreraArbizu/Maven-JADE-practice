@@ -1,3 +1,4 @@
+/*Para creación de agentes independientes */
 package com.upcino.swarmintelligence;
 import jade.core.Agent;
 
@@ -33,12 +34,6 @@ public class HostAgent extends Agent {
             frame.setVisible(true);
             //
             inicializar();
-			/*      
-            addBehaviour(new CyclicBehaviour(this) {
-                @Override
-                public void action() { MainFrame.panel_principal.repaint(); }
-            });
-			*/
 
 			// Comportamiento para redibujar
 			addBehaviour(new TickerBehaviour(this, 50) {
@@ -85,6 +80,7 @@ public class HostAgent extends Agent {
 					"com.upcino.swarmintelligence.FishAgent",
 					new Object[]{localname}
 				);
+				//Lo inicializa
                 ac.start();                
             }
             MainFrame.panel_principal.setEnabled(true);
