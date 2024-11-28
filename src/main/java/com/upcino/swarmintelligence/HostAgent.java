@@ -1,14 +1,14 @@
 /*Para creación de agentes independientes */
 package com.upcino.swarmintelligence;
 import jade.core.Agent;
-
+import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.TickerBehaviour;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 
 import jade.wrapper.AgentController;
 import jade.wrapper.PlatformController;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
 
 
 /**
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HostAgent extends Agent {
     public static MainFrame frame = null; //public static == variable global
     public static int numero_peces = 200;
-    public static ConcurrentHashMap<String, FishAgent> lista_peces = new ConcurrentHashMap<>();
+    public static ArrayList<FishAgent> lista_peces = new ArrayList<FishAgent>();
     public static boolean ENABLED = false;
     public static int x_center = 0;
     
@@ -36,12 +36,11 @@ public class HostAgent extends Agent {
             inicializar();
 
 			// Comportamiento para redibujar
-			addBehaviour(new TickerBehaviour(this, 50) {
+			addBehaviour(new CyclicBehaviour(this) {
                 @Override
-                protected void onTick() {
-                    MainFrame.panel_principal.repaint();
-                }
+                public void action() { MainFrame.panel_principal.repaint(); }
             });
+
             /* Esto perjudica el comportamiento independiente
             addBehaviour(new TickerBehaviour(this, 100) {
                 @Override
@@ -68,20 +67,12 @@ public class HostAgent extends Agent {
         PlatformController container = getContainerController();
         try {
             for (int i = 0; i < numero_peces; i++) {
-				//Nombre del agente
-				String localname = "pez_" + i;
-				//Crear el estado inicial del pez
-				FishAgent pezVisual = new FishAgent();
-                lista_peces.put(localname, pezVisual);
-
-				//Crea un agente
-                AgentController ac = container.createNewAgent(
-					localname, 
-					"com.upcino.swarmintelligence.FishAgent",
-					new Object[]{localname}
-				);
-				//Lo inicializa
-                ac.start();                
+				lista_peces.add(new FishAgent()); //listaPeces|Crear una instancia 
+                String localname = "pez_" + i;
+                //crear un agente
+                AgentController ac = container.createNewAgent(localname, "com.upcino.swarmintelligence.FishAgent", null);
+                ac.start();
+                //Dato: no tenemos acceso a estos agentes y están detenidos               
             }
             MainFrame.panel_principal.setEnabled(true);
             ENABLED = true;

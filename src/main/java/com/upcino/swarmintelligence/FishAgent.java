@@ -16,7 +16,6 @@ public class FishAgent extends Agent {
 	public Color color;
 	public int size;
 	public int speed;
-	private String myKey;
 
 	public FishAgent() {
 		x = (int) (1300 * Math.random());
@@ -24,43 +23,46 @@ public class FishAgent extends Agent {
 		color = new Color((int) (Math.random()) * 0x10000000);
 		size = (int) (25 * Math.random() + 5);
 		speed = 10 * 25 / size;
+		HostAgent.lista_peces.add(this);
 	}
 	// Para crear agentes independientes con un comportamiento
-	@Override
-	protected void setup() {
-		Object[] args = getArguments();
-		if (args != null && args.length > 0) {
-            myKey = (String) args[0];
-            FishAgent visualPez = HostAgent.lista_peces.get(myKey);
-            if (visualPez != null) {
-                this.x = visualPez.x;
-                this.y = visualPez.y;
-                this.color = visualPez.color;
-                this.size = visualPez.size;
-                this.speed = visualPez.speed;
-            }
-        }
-		//Comportamiento inicial
-		addBehaviour(new TickerBehaviour(this, 100) {
-			@Override
-			protected void onTick() {
-				definirStatus();
-				nadar();
-				actualizarEstadoVisual();
-			}
-		});
-	}
-	//Función creada para la actualización de la posición de los peces
-	private void actualizarEstadoVisual() {
-        if (myKey != null) {
-            FishAgent visualPez = HostAgent.lista_peces.get(myKey);
-            if (visualPez != null) {
-                visualPez.x = this.x;
-                visualPez.y = this.y;
-                visualPez.status = this.status;
-            }
-        }
-    }
+	// @Override
+	// protected void setup() {
+	// 	Object[] args = getArguments();
+	// 	if (args != null && args.length > 0) {
+    //         myKey = (String) args[0];
+    //         FishAgent visualPez = HostAgent.lista_peces.get(myKey);
+    //         if (visualPez != null) {
+    //             this.x = visualPez.x;
+    //             this.y = visualPez.y;
+    //             this.color = visualPez.color;
+    //             this.size = visualPez.size;
+    //             this.speed = visualPez.speed;
+    //         }
+    //     }
+	// 	//Comportamiento inicial
+	// 	addBehaviour(new TickerBehaviour(this, 100) {
+	// 		@Override
+	// 		protected void onTick() {
+	// 			definirStatus();
+	// 			nadar();
+	// 			actualizarEstadoVisual();
+	// 		}
+	// 	});
+	// }
+
+   @Override
+   public void setup(){
+	   addBehaviour(new TickerBehaviour(this, 100) {
+		   @Override
+		   protected void onTick() {
+              definirStatus();
+              nadar();
+       }
+	   });
+   
+   }
+	
 	public void definirStatus() {
 		if (y < 500) {
 			status = 1;

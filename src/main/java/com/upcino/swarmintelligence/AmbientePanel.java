@@ -29,7 +29,7 @@ public class AmbientePanel extends JPanel {
         Dimension d = getSize();
         g.fillRect(0, 0, d.width, d.height);
         if (HostAgent.ENABLED) {
-            for (FishAgent pez : HostAgent.lista_peces.values()){
+            for (FishAgent pez : HostAgent.lista_peces){
                 g.setColor(pez.color);
                 int largo = 10 + 4 * pez.size / 5;
                 int ancho = 5 + pez.size / 5;
