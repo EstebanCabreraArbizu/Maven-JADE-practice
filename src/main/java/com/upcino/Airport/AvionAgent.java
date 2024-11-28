@@ -23,11 +23,12 @@ public class AvionAgent extends Agent {
             DFAgentDescription dfd = new DFAgentDescription();
             dfd.setName(getAID());
             DFService.register(this, dfd);
-            //Comportamientos
+            
+			//Comportamiento paralelo
             ParallelBehaviour parallel = new ParallelBehaviour();
 			
             //Comportamiento movimiento
-            parallel.addSubBehaviour(new TickerBehaviour(this, 1000) {
+            parallel.addSubBehaviour(new TickerBehaviour(this, 1000) { //Acción a ejecutar en cierto intervalo de tiempo
                 @Override
                 protected void onTick() {
                     System.out.println("(" + getLocalName() + ")");
@@ -82,6 +83,7 @@ public class AvionAgent extends Agent {
                     }
                 }
             });
+			//Añadir comportamiento paralelo
             addBehaviour(parallel);
         }
         catch(Exception e){ e.printStackTrace(); }
