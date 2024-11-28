@@ -1,5 +1,8 @@
 package com.upcino.godrexyprime;
-
+/**
+ *
+ * @author MarceloGuerrero
+ */
 import jade.core.Agent;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;

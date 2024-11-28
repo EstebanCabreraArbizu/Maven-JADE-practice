@@ -1,5 +1,9 @@
 package com.upcino.godrexyprime;
 
+/**
+ *
+ * @author MarceloGuerrero
+ */
 import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 

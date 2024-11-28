@@ -1,5 +1,8 @@
 package com.upcino.godrexyprime;
-
+/**
+ *
+ * @author MarceloGuerrero
+ */
 public class Region {
     private String name;
     private String effect;
