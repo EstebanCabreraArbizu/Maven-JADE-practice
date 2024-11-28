@@ -1,7 +1,10 @@
 package com.upcino.swarmintelligence;
 
 import jade.core.Agent;
+import jade.core.behaviours.ParallelBehaviour;
 import jade.core.behaviours.TickerBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
 
 import java.awt.Color;
 
@@ -28,41 +31,58 @@ public class FishAgent extends Agent {
 	// Para crear agentes independientes con un comportamiento
 	// @Override
 	// protected void setup() {
-	// 	Object[] args = getArguments();
-	// 	if (args != null && args.length > 0) {
-    //         myKey = (String) args[0];
-    //         FishAgent visualPez = HostAgent.lista_peces.get(myKey);
-    //         if (visualPez != null) {
-    //             this.x = visualPez.x;
-    //             this.y = visualPez.y;
-    //             this.color = visualPez.color;
-    //             this.size = visualPez.size;
-    //             this.speed = visualPez.speed;
-    //         }
-    //     }
-	// 	//Comportamiento inicial
-	// 	addBehaviour(new TickerBehaviour(this, 100) {
-	// 		@Override
-	// 		protected void onTick() {
-	// 			definirStatus();
-	// 			nadar();
-	// 			actualizarEstadoVisual();
-	// 		}
-	// 	});
+	// Object[] args = getArguments();
+	// if (args != null && args.length > 0) {
+	// myKey = (String) args[0];
+	// FishAgent visualPez = HostAgent.lista_peces.get(myKey);
+	// if (visualPez != null) {
+	// this.x = visualPez.x;
+	// this.y = visualPez.y;
+	// this.color = visualPez.color;
+	// this.size = visualPez.size;
+	// this.speed = visualPez.speed;
+	// }
+	// }
+	// //Comportamiento inicial
+	// addBehaviour(new TickerBehaviour(this, 100) {
+	// @Override
+	// protected void onTick() {
+	// definirStatus();
+	// nadar();
+	// actualizarEstadoVisual();
+	// }
+	// });
 	// }
 
-   @Override
+	@Override
    public void setup(){
-	   addBehaviour(new TickerBehaviour(this, 100) {
-		   @Override
-		   protected void onTick() {
-              definirStatus();
-              nadar();
-       }
-	   });
-   
+	   try{
+		   DFAgentDescription dfd = new DFAgentDescription();
+		   dfd.setName(getAID());
+		   DFService.register(this, dfd);
+
+		   ParallelBehaviour parallel = new ParallelBehaviour();
+		   parallel.addSubBehaviour(new TickerBehaviour(this, 5000) {
+			   @Override
+			   protected void onTick() {
+				   System.out.println("(" + getLocalName() + ") en x: " + x + " y: " + y);
+			   }
+		   });
+		   parallel.addSubBehaviour(new TickerBehaviour(this, 100) {
+			   @Override
+			   protected void onTick() {
+			      definirStatus();
+			      nadar();
+			   }
+		   });
+
+		   addBehaviour(parallel);
+	   }
+	   catch(Exception e){
+		   e.printStackTrace();
+	   }
    }
-	
+
 	public void definirStatus() {
 		if (y < 500) {
 			status = 1;
